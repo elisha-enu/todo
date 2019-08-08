@@ -2,22 +2,16 @@ import React, {useState} from "react";
 import { Route, BrowserRouter as Router } from "react-router-dom";
 import Login from './login'
 import List from './list'
-import Cookie from 'cookie-universal'
 
 function PagesRouter() {
-  const cookies = Cookie()
-  const cookieRes = cookies.get('token')
   const [auth, setAuth] = useState(false)
 
-  if(cookieRes !== undefined) {
-    setAuth(true)
-  }
   return (
     <Router>
         <Route exact path="/" render={() => (
-            cookieRes !== undefined ? 
+            auth ? 
             (
-              <List/>
+              <List setAuth={setAuth}/>
             ) : (
               <Login setAuth={setAuth}/>
             )
