@@ -35,26 +35,27 @@ const List = ({
       'Action',
     ]
 
-    const cookies = Cookie()
-    const cookieRes = cookies.get('token')
+    // const cookies = Cookie()
+    // const cookieRes = cookies.get('token')
 
-    const redirectToList = () => {
-      if(cookieRes !== undefined) {
-        return (
-          <Redirect to='/list' />
-        )
-      }
-      else {
-        return (
-          <Redirect to='/' />
-        )
-      }
+    // const redirectToList = () => {
+    //   if(cookieRes !== undefined) {
+    //     return (
+    //       <Redirect to='/list' />
+    //     )
+    //   }
+    //   else {
+    //     return (
+    //       <Redirect to='/' />
+    //     )
+    //   }
   
-    }
+    // }
+    console.log('masuk halaman list')
 
     return (
       <div>
-        {redirectToList()}
+        {/* {redirectToList()} */}
         <div>
         <Modals show={show} onHide={() => setShow(false)} modalType={modalType} dataId={dataId}/> 
           <Form>

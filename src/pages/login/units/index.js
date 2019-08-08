@@ -18,6 +18,7 @@ const Login = ({
   isLoading,
   isError,
   errMessage,
+  setAuth,
 }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -27,29 +28,36 @@ const Login = ({
 
   const dataUser = {name: name, email: email, password: password}
 
-  const cookies = Cookie()
-  const cookieRes = cookies.get('token')
+  // const cookies = Cookie()
+  // const cookieRes = cookies.get('token')
 
-  const redirectToList = () => {
-    if(cookieRes !== undefined) {
-      return (
-        <Redirect to='/list' />
-      )
-    }
-    else {
-      return (
-        <Redirect to='/' />
-      )
-    }
+  // const redirectToList = () => {
+  //   if(cookieRes !== undefined) {
+  //     return (
+  //       <Redirect to='/list' />
+  //     )
+  //   }
+  //   else {
+  //     return (
+  //       <Redirect to='/' />
+  //     )
+  //   }
 
-  }
+  // }
 
+      useEffect(() => {
+        if(!isLoading) {
+          setAuth(true)
+        }
+    }, [isLoading])
+
+  console.log('masuk halaman login')
   return (
     <PageStyled>
       <Spinners show={isLoading} onHide={() => console.log('hehe')}/>
       <LoginStyled>
       Login
-      {redirectToList()}
+      {/* {redirectToList()} */}
       <Input
         placeholder="Username"dire
         onChange={(e) => {setEmail(e.target.value)}}
@@ -123,6 +131,7 @@ Login.propTypes = {
   setPassword: PropTypes.func,
   handleLogin: PropTypes.func,
   handleRegister: PropTypes.func,
+  setAuth: PropTypes.func,
 }
 
 Login.defaultProps = {
@@ -130,6 +139,7 @@ Login.defaultProps = {
   handleRegister: () => {},
   setUsername: () => {},
   setPassword: () => {},
+  setAuth: () => {},
 }
 
 export default Login
