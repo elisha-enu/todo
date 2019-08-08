@@ -3,6 +3,8 @@ import Modals from './units';
 
 export const mapStateToProps = state => {
   return {
+    isModalShow: state.isModalShow,
+    modalType: state.modalType,
   }
 }
   

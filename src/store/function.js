@@ -1,29 +1,30 @@
 import {
-  POST_LOGIN_ERROR,
-  POST_LOGIN_LOADING,
-  POST_LOGIN_SUCCESS,
+  ON_ERROR,
+  ON_LOADING,
+  ON_SUCCESS,
 
   POST_TODO_SUCCESS,
   GET_LIST_TODO_SUCCESS,
   GET_DETAIL_TODO_SUCCESS,
   PUT_TODO_SUCCESS,
+  SHOW_HIDE_MODAL,
 } from './action'
 import axios from 'axios'
 import Cookie from 'cookie-universal'
 
 const apiURL = `https://pomonatodo.herokuapp.com`
 
-export const postLoginLoading = () => ({
-  type: POST_LOGIN_LOADING,
+export const onLoading = () => ({
+  type: ON_LOADING,
 })
 
-export const postLoginError = (payload) => ({
-  type: POST_LOGIN_ERROR,
+export const onError = (payload) => ({
+  type: ON_ERROR,
   payload,
 })
 
-export const postLoginSuccess = () => ({
-  type: POST_LOGIN_SUCCESS,
+export const onSuccess = () => ({
+  type: ON_SUCCESS,
 })
   
 export const handleLogin = (payload) => dispatch => {
@@ -34,22 +35,22 @@ export const handleLogin = (payload) => dispatch => {
     password: payload.password,
   }
 
-  dispatch(postLoginLoading())
+  dispatch(onLoading())
 
   return axios.post(URL, body)
     .then(response => {
       console.log('masuk sukses')
       const cookies = Cookie()
       cookies.set('token', response.data.data.token)
-      dispatch(postLoginSuccess())
+      dispatch(onSuccess())
     })
     .catch(error => {
       console.log('masuk error')
-      dispatch(postLoginError(error))
+      dispatch(onError(error))
     });
 }
 
-export const handleRegister = (payload) => {
+export const handleRegister = (payload) => dispatch => {
   let URL = `${apiURL}/auth/register`
 
   let body = {
@@ -58,14 +59,17 @@ export const handleRegister = (payload) => {
     password: payload.password,
   }
 
+  dispatch(onLoading())
+
   return axios.post(URL, body)
     .then(response => {
       const cookies = Cookie()
       cookies.set('token', response.data.data.token)
-      return true
+      dispatch(onSuccess())
     })
     .catch(error => {
-      throw(error);
+      console.log('masuk error')
+      dispatch(onError(error))
   });
 }
 
@@ -190,4 +194,13 @@ export const handleDeleteToDo = (payload) => (dispatch) => {
   .catch(error => {
     throw(error);
   });
+}
+
+export const handleShowHideModal = (isShow, modalType) => {
+  console.log(isShow, 'isShow')
+  console.log(modalType, 'modalType')
+  return ({
+    type: SHOW_HIDE_MODAL,
+    payload: {isShow, modalType}
+  })
 }

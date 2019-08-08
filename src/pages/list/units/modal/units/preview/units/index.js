@@ -32,30 +32,26 @@ const Preview = ({
   }
 
   return (
-    <Modal show={show} onHide={onHide}>
-      <Modal.Header closeButton>
-        <Modal.Title>Preview</Modal.Title>
-      </Modal.Header>
+    <>
       <Modal.Body>
-
-      <Form>
-        <Form.Group controlId="formBasicAdd">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="enter title"
-            value={title || ''}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <Form.Label>Note</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="enter note"
-            value={note || ''}
-            onChange={(e) => setNote(e.target.value)}
-          />
-        </Form.Group>
-      </Form>
+        <Form>
+          <Form.Group controlId="formBasicAdd">
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="enter title"
+              value={title || ''}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <Form.Label>Note</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="enter note"
+              value={note || ''}
+              onChange={(e) => setNote(e.target.value)}
+            />
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
@@ -69,7 +65,7 @@ const Preview = ({
           Save Changes
         </Button>
       </Modal.Footer>
-    </Modal>
+    </>
   )
 }
 

@@ -12,10 +12,7 @@ const Delete = ({
 }) => {
 
   return (
-    <Modal show={show} onHide={onHide}>
-      <Modal.Header closeButton>
-        <Modal.Title>Are you sure want to delete?</Modal.Title>
-      </Modal.Header>
+    <>
       <Modal.Body>
         You can't undo this action
       </Modal.Body>
@@ -30,21 +27,12 @@ const Delete = ({
         >
           Delete anyway
         </Button>
-        {/* <Button variant="primary" onClick={async () => {
-          handleAddToDo(insertData)
-          onHide()
-        }}
-        >
-          Save Changes
-        </Button> */}
       </Modal.Footer>
-    </Modal>
+    </>
   )
 }
 
 Delete.propTypes = {
-  // getListToDo: PropTypes.func,
-  // handleAddToDo: PropTypes.func,
   handleDeteleToDo: PropTypes.func,
   show: PropTypes.bool,
   onHide: PropTypes.func,
@@ -52,8 +40,6 @@ Delete.propTypes = {
 }
 
 Delete.defaultProps = {
-  // getListToDo: () => {},
-  // handleAddToDo: () => {},
   handleDeleteToDo: () => {},
   onHide: () => {},
   dataId: null,
