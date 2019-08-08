@@ -20,6 +20,11 @@ const Login = ({
   errMessage,
   setAuth,
 }) => {
+  const cookies = Cookie()
+  const cookieRes = cookies.get('token')
+  if(cookieRes)
+    setAuth(true)
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,30 +33,6 @@ const Login = ({
 
   const dataUser = {name: name, email: email, password: password}
 
-  // const cookies = Cookie()
-  // const cookieRes = cookies.get('token')
-
-  // const redirectToList = () => {
-  //   if(cookieRes !== undefined) {
-  //     return (
-  //       <Redirect to='/list' />
-  //     )
-  //   }
-  //   else {
-  //     return (
-  //       <Redirect to='/' />
-  //     )
-  //   }
-
-  // }
-
-      useEffect(() => {
-        if(!isLoading) {
-          setAuth(true)
-        }
-    }, [isLoading])
-
-  console.log('masuk halaman login')
   return (
     <PageStyled>
       <Spinners show={isLoading} onHide={() => console.log('hehe')}/>
@@ -112,11 +93,7 @@ const Login = ({
           <Button variant="secondary" onClick={() => setShow(false)}>
             Close
           </Button>
-          <Button variant="primary" onClick={async () => {
-            await handleRegister(dataUser) ?
-            setShow(false) : console.log('err')
-          }}
-          >
+          <Button variant="primary" onClick={() => handleRegister(dataUser)}>
             Save Changes
           </Button>
         </Modal.Footer>
