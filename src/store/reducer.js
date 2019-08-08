@@ -3,6 +3,7 @@ import {
     POST_TODO_SUCCESS,
     GET_DETAIL_TODO_SUCCESS,
     PUT_TODO_SUCCESS,
+    
     POST_LOGIN_LOADING,
     POST_LOGIN_ERROR,
     POST_LOGIN_SUCCESS,
@@ -23,12 +24,14 @@ import {
   const reducer = (state= initialState, action) => {
     switch(action.type) {
       case POST_LOGIN_LOADING:
+        console.log('masuk loading red')
         return {
           ...state,
           isLoading: true,
           isError: false,
         }
       case POST_LOGIN_ERROR:
+        console.log('masuk error red')
         return {
           ...state,
           isLoading: false,
@@ -36,6 +39,7 @@ import {
           errMessage: action.payload,
         }
       case POST_LOGIN_SUCCESS:
+        console.log('masuk sukses red')
         return {
           ...state,
           isLoading: false,

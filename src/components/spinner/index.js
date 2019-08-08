@@ -10,9 +10,12 @@ const Spinners = ({
   onHide,
 }) => {
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide}
+      aria-labelledby="contained-modal-title"
+      centered
+    >
         <Spinner animation="border" role="status">
-            <span className="sr-only">Loading...</span>
+          <span className="sr-only">Loading...</span>
         </Spinner>
     </Modal>
   )

@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { PageStyled, LoginStyled } from './styled'
 import { 
@@ -30,18 +30,19 @@ const Login = ({
   const cookies = Cookie()
   const cookieRes = cookies.get('token')
 
-  console.log(cookieRes)
-
   const redirectToList = () => {
-    // if(cookieRes !== undefined)
-    //   console.log('ada')
-    //   return (
-    //     <Redirect to='/list' />
-    //   )
+    if(cookieRes !== undefined) {
+      return (
+        <Redirect to='/list' />
+      )
+    }
+    else {
+      return (
+        <Redirect to='/' />
+      )
+    }
+
   }
-  
-  console.log('isLoading', isLoading)
-  console.log('isError', isError)
 
   return (
     <PageStyled>
@@ -50,7 +51,7 @@ const Login = ({
       Login
       {redirectToList()}
       <Input
-        placeholder="Username"u
+        placeholder="Username"dire
         onChange={(e) => {setEmail(e.target.value)}}
         value={email}
         type="text"

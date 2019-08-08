@@ -9,6 +9,8 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
 import Modals from './modal'
+import Cookie from 'cookie-universal'
+import { Link, Redirect } from "react-router-dom"
 
 const List = ({
     listToDo,
@@ -33,8 +35,26 @@ const List = ({
       'Action',
     ]
 
+    const cookies = Cookie()
+    const cookieRes = cookies.get('token')
+
+    const redirectToList = () => {
+      if(cookieRes !== undefined) {
+        return (
+          <Redirect to='/list' />
+        )
+      }
+      else {
+        return (
+          <Redirect to='/' />
+        )
+      }
+  
+    }
+
     return (
       <div>
+        {redirectToList()}
         <div>
         <Modals show={show} onHide={() => setShow(false)} modalType={modalType} dataId={dataId}/> 
           <Form>
