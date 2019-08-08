@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React, {useState} from 'react'
 import PropTypes from 'prop-types'
-import { PageStyled } from './styled'
+import { PageStyled, LoginStyled } from './styled'
 import { 
   // Button,
   Input,
@@ -26,6 +26,8 @@ const Login = ({
   const cookies = Cookie()
   const cookieRes = cookies.get('token')
 
+  console.log(cookieRes)
+
   const redirectToList = () => {
     // if(cookieRes !== undefined)
     //   console.log('ada')
@@ -36,6 +38,7 @@ const Login = ({
   
   return (
     <PageStyled>
+      <LoginStyled>
       Login
       {redirectToList()}
       <Input
@@ -53,7 +56,7 @@ const Login = ({
       />
       <Button  variant="secondary"
         onClick={() => {
-            setShow(true)
+          setShow(true)
         }}
       >
         Register
@@ -101,6 +104,7 @@ const Login = ({
           </Button>
         </Modal.Footer>
       </Modal>
+      </LoginStyled>
     </PageStyled>
   )
 }
