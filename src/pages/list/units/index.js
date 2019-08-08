@@ -21,7 +21,7 @@ const List = ({
     const [dataId, setDataId] = useState(null)
 
     useEffect(() => {
-        getListToDo('', radio)
+        getListToDo(searchText, radio)
     }, [searchText, radio])
 
     const dataTable = [

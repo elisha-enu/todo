@@ -11,6 +11,8 @@ import {
       title: '',
       note: '',
     },
+    isLoading: false,
+    isError: false,
   };
   
   const reducer = (state= initialState, action) => {
