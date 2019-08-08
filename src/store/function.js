@@ -1,17 +1,32 @@
 import {
-    SET_PASSWORD,
-    SET_EMAIL,
-    POST_TODO_SUCCESS,
-    GET_LIST_TODO_SUCCESS,
-    GET_DETAIL_TODO_SUCCESS,
-    PUT_TODO_SUCCESS,
-  } from './action'
+  POST_LOGIN_ERROR,
+  POST_LOGIN_LOADING,
+  POST_LOGIN_SUCCESS,
+
+  POST_TODO_SUCCESS,
+  GET_LIST_TODO_SUCCESS,
+  GET_DETAIL_TODO_SUCCESS,
+  PUT_TODO_SUCCESS,
+} from './action'
 import axios from 'axios'
 import Cookie from 'cookie-universal'
 
 const apiURL = `https://pomonatodo.herokuapp.com`
+
+export const postLoginLoading = () => ({
+  type: POST_LOGIN_LOADING,
+})
+
+export const postLoginError = (payload) => ({
+  type: POST_LOGIN_ERROR,
+  payload,
+})
+
+export const postLoginSuccess = () => ({
+  type: POST_LOGIN_SUCCESS,
+})
   
-export const handleLogin = (payload) => {
+export const handleLogin = (payload) => dispatch => {
   let URL = `${apiURL}/auth/login`
 
   let body = {
@@ -19,14 +34,18 @@ export const handleLogin = (payload) => {
     password: payload.password,
   }
 
+  dispatch(postLoginLoading())
+
   return axios.post(URL, body)
     .then(response => {
+      console.log('masuk sukses')
       const cookies = Cookie()
       cookies.set('token', response.data.data.token)
-      return true
+      dispatch(postLoginSuccess())
     })
     .catch(error => {
-      throw(error);
+      console.log('masuk error')
+      dispatch(postLoginError(error))
     });
 }
 

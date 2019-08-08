@@ -9,11 +9,15 @@ import {
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Cookie from 'cookie-universal'
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom"
+import Spinners from '../../../components/spinner'
 
 const Login = ({
   handleLogin,
   handleRegister,
+  isLoading,
+  isError,
+  errMessage,
 }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -36,13 +40,17 @@ const Login = ({
     //   )
   }
   
+  console.log('isLoading', isLoading)
+  console.log('isError', isError)
+
   return (
     <PageStyled>
+      <Spinners show={isLoading} onHide={() => console.log('hehe')}/>
       <LoginStyled>
       Login
       {redirectToList()}
       <Input
-        placeholder="Username"
+        placeholder="Username"u
         onChange={(e) => {setEmail(e.target.value)}}
         value={email}
         type="text"

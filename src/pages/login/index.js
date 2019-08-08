@@ -10,11 +10,14 @@ export const mapStateToProps = state => {
       name: state.name,
       email: state.email,
       password: state.password,
+      isLoading: state.isLoading,
+      isError: state.isError,
+      errMessage: state.errMessage,
   }
 }
   
 export const mapDispatchToProps = dispatch => ({
-    handleLogin: (data) => handleLogin(data),
+    handleLogin: (data) => dispatch(handleLogin(data)),
     handleRegister: (data) => handleRegister(data),
 })
 
