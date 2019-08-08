@@ -25,7 +25,6 @@ const Login = ({
 
   const cookies = Cookie()
   const cookieRes = cookies.get('token')
-  console.log('cookie', cookieRes)
 
   const redirectToList = () => {
     // if(cookieRes !== undefined)

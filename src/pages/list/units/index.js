@@ -9,26 +9,20 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import Table from 'react-bootstrap/Table'
 import Modals from './modal'
-// import Create from './modal'
 
 const List = ({
     listToDo,
     getListToDo,
-    handleAddToDo,
 }) => {
     const [searchText, setSearchText] = useState('')
     const [radio, setRadio] = useState('all')
     const [show, setShow] = useState(false)
-    const [title, setTitle] = useState('')
-    const [note, setNote] = useState('')
+    const [modalType, setModalType] = useState('')
+    const [dataId, setDataId] = useState(null)
+
     useEffect(() => {
         getListToDo('', radio)
     }, [searchText, radio])
-
-    const insertData = {
-      title: title,
-      note: note,
-    }
 
     const dataTable = [
       'No',
@@ -42,6 +36,7 @@ const List = ({
     return (
       <div>
         <div>
+        <Modals show={show} onHide={() => setShow(false)} modalType={modalType} dataId={dataId}/>
           <Form>
             <Form.Group controlId="formBasicSearch">
               <Form.Label>Search to do:</Form.Label>
@@ -79,47 +74,11 @@ const List = ({
               />
             </Form.Group>
             <Button as="input" type="button" value="Search" onClick={() => getListToDo(searchText, radio)}/>
-            <Button as="input" type="button" value="Add new task" onClick={() => setShow(true)}/>
-            <Modals show={show} onHide={() => setShow(false)} />
-            
-            {/* <Modal show={show} onHide={() => setShow(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>Add New Task</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-
-              <Form>
-                <Form.Group controlId="formBasicAdd">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="enter title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                  <Form.Label>Note</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="enter note"
-                    value={note}
-                    onChange={(e) => setNote(e.target.value)}
-                  />
-                </Form.Group>
-              </Form>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShow(false)}>
-                  Close
-                </Button>
-                <Button variant="primary" onClick={async () => {
-                  handleAddToDo(insertData)
-                  setShow(false)
-                }}
-                >
-                  Save Changes
-                </Button>
-              </Modal.Footer>
-            </Modal> */}
+            <Button as="input" type="button" value="Add new task" onClick={() => {
+              setShow(true)
+              setModalType('create')
+            }}
+            />
           </Form>
         </div>   
 
@@ -145,7 +104,18 @@ const List = ({
                   <td>{list.priority}</td>
                   <td>{list.isDone ? 'done' : 'not done'}</td>
                   <td>
-                    <Button as="input" type="button" value="Preview" onClick={() => setShow(true)}/>
+                    <Button as="input" type="button" value="Preview" onClick={() => {
+                        setShow(true)
+                        setModalType('preview')
+                        setDataId(list.id)
+                      }}
+                    />
+                    <Button as="input" type="button" value="Delete" onClick={() => {
+                        setShow(true)
+                        setModalType('delete')
+                        setDataId(list.id)
+                      }}
+                    />
                   </td>
                 </tr>
               ))
