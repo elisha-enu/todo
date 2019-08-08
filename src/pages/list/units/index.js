@@ -36,7 +36,7 @@ const List = ({
     return (
       <div>
         <div>
-        <Modals show={show} onHide={() => setShow(false)} modalType={modalType} dataId={dataId}/>
+        <Modals show={show} onHide={() => setShow(false)} modalType={modalType} dataId={dataId}/> 
           <Form>
             <Form.Group controlId="formBasicSearch">
               <Form.Label>Search to do:</Form.Label>
