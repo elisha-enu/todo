@@ -1,0 +1,6 @@
+export const SET_NAME = 'SET_NAME'
+export const SET_EMAIL = 'SET_EMAIL'
+export const SET_PASSWORD = 'SET_PASSWORD'
+export const GET_LIST_TODO_SUCCESS = 'GET_LIST_TODO_SUCCESS'
+export const GET_LIST_TODO_ERROR = 'GET_LIST_TODO_ERROR'
+export const POST_TODO_SUCCESS = 'POST_TODO_SUCCESS'
