@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Live Demo
+
+Can be access at https://pure-island-32562.herokuapp.com/
+
 ## Available Scripts
 
 In the project directory, you can run:
