@@ -9,6 +9,8 @@ const Create = ({
   handleAddToDo,
   show,
   onHide,
+  handleShowHideModal,
+  modalType,
 }) => {
   const [title, setTitle] = useState('')
   const [note, setNote] = useState('')
@@ -40,7 +42,7 @@ const Create = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
+        <Button variant="secondary" onClick={() => handleShowHideModal(false, modalType)}>
           Close
         </Button>
         <Button variant="primary" onClick={async () => {
@@ -60,12 +62,14 @@ Create.propTypes = {
   handleAddToDo: PropTypes.func,
   show: PropTypes.bool,
   onHide: PropTypes.func,
+  handleShowHideModal: PropTypes.func,
 }
 
 Create.defaultProps = {
   getListToDo: () => {},
   handleAddToDo: () => {},
   onHide: () => {},
+  handleShowHideModal: () => {},
 }
 
 export default Create

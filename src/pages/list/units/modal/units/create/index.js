@@ -1,19 +1,19 @@
 import { connect } from 'react-redux';
 import Create from './units';
 import { 
-    // getListToDo,
     handleAddToDo,
+    handleShowHideModal,
 } from '../../../../../../store/function'; 
 
 export const mapStateToProps = state => {
   return {
-    // listToDo: state.listToDo,
+    modalType: state.modalType,
   }
 }
   
 export const mapDispatchToProps = dispatch => ({
-    // getListToDo: (search, filter) => dispatch(getListToDo(search, filter)),
-    handleAddToDo: (data) => dispatch(handleAddToDo(data))
+    handleAddToDo: (data) => dispatch(handleAddToDo(data)),
+    handleShowHideModal: (isShow, modalType) => dispatch(handleShowHideModal(isShow, modalType))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Create);
