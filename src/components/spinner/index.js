@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Spinner from 'react-bootstrap/Spinner'
 import { ModalWrapper } from './styled';
