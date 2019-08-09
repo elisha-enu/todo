@@ -14,6 +14,7 @@ import Modals from './modal'
 import Cookie from 'cookie-universal'
 import Spinners from '../../../components/spinner'
 import {ActionBox} from './styled'
+import swal from 'sweetalert'
 
 const List = ({
   listToDo,
@@ -44,6 +45,8 @@ const List = ({
   useEffect(() => {
     getListToDo(searchText, radio)
   }, [searchText, radio])
+
+  // swal("Hello world!");
 
   return (
     <>

@@ -6,13 +6,12 @@ import {
   POST_TODO_SUCCESS,
   GET_LIST_TODO_SUCCESS,
   GET_DETAIL_TODO_SUCCESS,
-  PUT_TODO_SUCCESS,
-  DELETE_TODO_SUCCESS,
   SHOW_HIDE_MODAL,
   SET_DATAID,
 } from './action'
 import axios from 'axios'
 import Cookie from 'cookie-universal'
+import swal from 'sweetalert'
 
 const apiURL = `https://pomonatodo.herokuapp.com`
 
@@ -25,9 +24,11 @@ export const onError = (payload) => ({
   payload,
 })
 
-export const onSuccess = () => ({
-  type: ON_SUCCESS,
-})
+export const onSuccess = () => {
+  return ({
+    type: ON_SUCCESS,
+  })
+}
   
 export const handleLogin = (payload) => dispatch => {
   let URL = `${apiURL}/auth/login`
@@ -46,8 +47,16 @@ export const handleLogin = (payload) => dispatch => {
       dispatch(onSuccess())
     })
     .catch(error => {
-      dispatch(onError(error))
+      dispatch(postLoginError(error))
     });
+}
+
+export const postLoginError = (payload) => {
+  swal('Login failed!', "Email or password is invalid!", "error");
+  return ({
+    type: ON_ERROR,
+    payload,
+  })
 }
 
 export const handleRegister = (payload) => dispatch => {
@@ -68,8 +77,16 @@ export const handleRegister = (payload) => dispatch => {
       dispatch(onSuccess())
     })
     .catch(error => {
-      dispatch(onError(error))
+      dispatch(postRegisterError(error))
   });
+}
+
+export const postRegisterError = (payload) => {
+  swal('Oops!', "Failed to register, try using different email address!", "error");
+  return ({
+    type: ON_ERROR,
+    payload,
+  })
 }
 
 export const getListToDo = (query, filter) => (dispatch) => {
@@ -97,10 +114,21 @@ export const getListToDoSuccess = (payload) => ({
   payload,
 })
 
-export const postToDoSuccess = payload => ({
-  type: POST_TODO_SUCCESS,
-  payload,
-})
+export const postToDoSuccess = (payload) => {
+  swal('Item created!', "Success create to do list!", "success");
+  return ({
+    type: POST_TODO_SUCCESS,
+    payload,
+  })
+}
+
+export const postToDoError = (payload) => {
+  swal('Failed to create item', "Failed to create to do list", "error");
+  return ({
+    type: ON_ERROR,
+    payload,
+  })
+}
 
 export const handleAddToDo = (payload) => (dispatch, getState) => {
   let URL = `${apiURL}/todo/`
@@ -125,7 +153,7 @@ export const handleAddToDo = (payload) => (dispatch, getState) => {
       dispatch(handleShowHideModal(false, '', null))
     })
     .catch(error => {
-      dispatch(onError(error))
+      dispatch(postToDoError(error))
     });
 }
 
@@ -145,13 +173,21 @@ export const handleDetailToDo = (payload) => (dispatch) => {
     dispatch(handleShowHideModal(true,'preview',payload))
   })
   .catch(error => {
-    dispatch(onError(error))
+    dispatch(getDetailToDoError(error))
   });
 }
 
 export const getDetailToDoSuccess = (payload) => {
   return ({
     type: GET_DETAIL_TODO_SUCCESS,
+    payload,
+  })
+}
+
+export const getDetailToDoError = (payload) => {
+  swal('Preview failed!', "Item not found", "error");
+  return ({
+    type: ON_ERROR,
     payload,
   })
 }
@@ -174,22 +210,31 @@ export const handleUpdateToDo = (payload) => (dispatch) => {
 
   return axios.put(URL, body, {headers: header})
   .then(response => {
-    // dispatch(putToDoSuccess(response.data.data))
-    dispatch(onSuccess())
+    dispatch(putToDoSuccess(response.data.data))
     dispatch(handleShowHideModal(false, '', null))
     dispatch(getListToDo('','all'))
   })
   .catch(error => {
-    dispatch(onError(error))
+    dispatch(putToDoError(error))
   });
 }
 
-export const putToDoSuccess = (payload) => ({
-  type: PUT_TODO_SUCCESS,
-  payload,
-})
+export const putToDoSuccess = () => {
+  swal('Update success', "Item successfully updated!", "success");
+  return  ({
+    type: ON_SUCCESS,
+  })
+}
 
-export const handleDeleteToDo = (payload) => (dispatch, getState) => {
+export const putToDoError = (payload) => {
+  swal('Update failed', "Failed to update to do list", "error");
+  return  ({
+    type: ON_ERROR,
+    payload,
+  })
+}
+
+export const handleDeleteToDo = (payload) => (dispatch) => {
   let URL = `${apiURL}/todo/${payload}`
 
   const cookies = Cookie()
@@ -201,18 +246,29 @@ export const handleDeleteToDo = (payload) => (dispatch, getState) => {
 
   return axios.delete(URL, {headers: header})
   .then(response => {
+    dispatch(deleteToDoSuccess(response.data.data))
     dispatch(getListToDo('', 'all'))
     dispatch(handleShowHideModal(false, '', null))
   })
   .catch(error => {
-    dispatch(onError(error))
+    dispatch(deleteToDoError(error))
   });
 }
 
-export const deleteToDoSuccess = (payload) => ({
-  type: DELETE_TODO_SUCCESS,
-  payload,
-})
+export const deleteToDoSuccess = () => {
+  swal('Item deleted!', "Item successfully deleted", "success");
+  return ({
+    type: ON_SUCCESS,
+  })
+}
+
+export const deleteToDoError = (payload) => {
+  swal('Delete failed!', "Failed to delete to do list", "error");
+  return ({
+    type: ON_ERROR,
+    payload,
+  })
+}
 
 export const handleShowHideModal = (isShow, modalType, dataId) => (dispatch) => {
   dispatch({

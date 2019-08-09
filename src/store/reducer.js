@@ -2,14 +2,13 @@ import {
     GET_LIST_TODO_SUCCESS,
     POST_TODO_SUCCESS,
     GET_DETAIL_TODO_SUCCESS,
-    PUT_TODO_SUCCESS,
 
     ON_LOADING,
     ON_ERROR,
     ON_SUCCESS,
+    
     SHOW_HIDE_MODAL,
     SET_DATAID,
-    DELETE_TODO_SUCCESS,
   } from './action'
   
   const initialState = {
@@ -65,20 +64,6 @@ import {
           isLoading: false,
           isError: false,
           detailToDo: action.payload,
-        }
-      case PUT_TODO_SUCCESS:
-        return {
-          ...state,
-          isLoading: false,
-          isError: false,
-          detailToDo: action.payload,
-        }
-      case DELETE_TODO_SUCCESS:
-        return {
-          ...state,
-          isLoading: false,
-          isError: false,
-          listToDo: action.payload,
         }
       case SHOW_HIDE_MODAL:
         return {
