@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
 import Modals from './units';
+import {
+  handleShowHideModal
+} from '../../../../store/function'
 
 export const mapStateToProps = state => {
   return {
@@ -9,6 +12,7 @@ export const mapStateToProps = state => {
 }
   
 export const mapDispatchToProps = dispatch => ({
+  handleShowHideModal: (isShow, modalType) => dispatch(handleShowHideModal(isShow, modalType))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modals);

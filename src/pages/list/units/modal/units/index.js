@@ -1,9 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react'
 import PropTypes from 'prop-types'
-import Button from 'react-bootstrap/Button'
-// import Modal from 'react-bootstrap/Modal'
-// import Form from 'react-bootstrap/Form'
 import Create from './create';
 import Preview from './preview';
 import Delete from './delete';
@@ -11,9 +8,9 @@ import Modal from 'react-bootstrap/Modal'
 
 const Modals = ({
   isModalShow,
-  onHide,
   modalType,
   dataId,
+  handleShowHideModal,
 }) => {
   const headerTitle = () => {
     if(modalType === 'create') {
@@ -24,7 +21,7 @@ const Modals = ({
       return 'Delete To Do'
     }
   }
-  const bodyModal = () => {
+  const renderBody = () => {
     if(modalType === 'create') {
       return (
         <Create />
@@ -39,12 +36,14 @@ const Modals = ({
       )
     }
   }
+  console.log('isShowModal', isModalShow)
+  console.log('type', modalType)
   return (
-    <Modal show={isModalShow} onHide={onHide} dataId={dataId}>
+    <Modal show={isModalShow} onHide={() => handleShowHideModal(false, modalType)}>
       <Modal.Header closeButton>
-        <Modal.Title>{headerTitle}</Modal.Title>
+        <Modal.Title>{headerTitle()}</Modal.Title>
       </Modal.Header>
-      {bodyModal}
+      {renderBody()}
     </Modal>
   )
 }
@@ -52,11 +51,13 @@ const Modals = ({
 Modals.propTypes = {
   onHide: PropTypes.func,
   dataId: PropTypes.number,
+  handleShowHideModal: PropTypes.func,
 }
 
 Modals.defaultProps = {
   onHide: () => {},
   dataId: null,
+  handleShowHideModal: () => {},
 }
 
 export default Modals
