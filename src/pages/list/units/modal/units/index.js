@@ -11,7 +11,9 @@ const Modals = ({
   modalType,
   dataId,
   handleShowHideModal,
+  isLoading,
 }) => {
+  console.log('MODAL IS LOADING =>', isLoading)
   const headerTitle = () => {
     if(modalType === 'create') {
       return 'Create New To Do'
@@ -28,7 +30,9 @@ const Modals = ({
       )
     } else if(modalType === 'preview') {
       return (
-        <Preview />
+        <>
+          <Preview />
+        </>
       )
     } else  {
       return (
@@ -36,9 +40,6 @@ const Modals = ({
       )
     }
   }
-  console.log('isShowModal', isModalShow)
-  console.log('type', modalType)
-  console.log('id modal', dataId)
   return (
     <Modal show={isModalShow} onHide={() => handleShowHideModal(false, modalType, null)}>
       <Modal.Header closeButton>

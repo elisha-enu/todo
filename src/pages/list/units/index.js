@@ -8,6 +8,7 @@ import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import Row from 'react-bootstrap/Row'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Col from 'react-bootstrap/Col'
 import Modals from './modal'
 import Cookie from 'cookie-universal'
@@ -20,12 +21,14 @@ const List = ({
   setAuth,
   isLoading,
   handleShowHideModal,
+  handleDetailToDo,
 }) => {
   const cookies = Cookie()
   const cookieRes = cookies.get('token')
   if(cookieRes === undefined)
     setAuth(false)
 
+  const [tempSearch, setTempSearch] = useState('')
   const [searchText, setSearchText] = useState('')
   const [radio, setRadio] = useState('all')
 
@@ -50,7 +53,12 @@ const List = ({
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto" />
           <Nav>
-            <Nav.Link onClick={() => cookies.remove('token')}>Logout</Nav.Link>
+            <Nav.Link onClick={() => {
+              cookies.remove('token')
+              setAuth(false)
+            }}>
+              Logout
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -62,7 +70,7 @@ const List = ({
             <Col md={2} style={{display: 'flex', alignItems: 'center'}}>
               <Button variant="outline-primary" as="input" type="button" value="Add new task" onClick={() => handleShowHideModal(true, 'create', null)} />
             </Col>
-            <Col md={{ span: 3, offset: 5 }} style={{display: 'flex', alignItems: 'center'}}>
+            <Col md={{ span: 3, offset: 4 }} style={{display: 'flex', alignItems: 'center'}}>
               <Form>
                 <Form.Group controlId="formBasicChecbox" style={{margin: '0'}}>
                   <Form.Check
@@ -95,15 +103,24 @@ const List = ({
                 </Form.Group>
               </Form>
             </Col>
-            <Col md={2} style={{display: 'flex', alignItems: 'center'}}>
+            <Col md={3} style={{display: 'flex', alignItems: 'center'}}>
               <Form>
                 <Form.Group controlId="formBasicSearch" style={{margin: '0'}}>
-                  <Form.Control
-                    type="text"
-                    placeholder="Search here"
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                  />
+                  <InputGroup>
+                    <Form.Control
+                      type="text"
+                      placeholder="Search here"
+                      value={tempSearch}
+                      onChange={(e) => 
+                        setTempSearch(e.target.value)
+                      }
+                      aria-label="search"
+                      aria-describedby="basic-addon2"
+                    />
+                    <InputGroup.Append>
+                      <Button variant="outline-secondary" onClick={() => setSearchText(tempSearch)}>Search</Button>
+                    </InputGroup.Append>
+                  </InputGroup>
                 </Form.Group>
               </Form>
             </Col>
@@ -138,7 +155,7 @@ const List = ({
                   <td>
                     <Row className="justify-content-md-left">
                       <Col md="auto">
-                        <Button variant="outline-warning" as="input" type="button" value="Edit" onClick={() => handleShowHideModal(true, 'preview', list.id)} />
+                        <Button variant="outline-warning" as="input" type="button" value="Edit" onClick={() => handleDetailToDo(list.id)} />
                       </Col>
                       <Col md="auto">
                         <Button variant="outline-danger" as="input" type="button" value="Delete" onClick={() => handleShowHideModal(true, 'delete', list.id)} />
@@ -166,12 +183,14 @@ List.propTypes = {
     getListToDo: PropTypes.func,
     handleAddToDo: PropTypes.func,
     handleShowHideModal: PropTypes.func,
+    handleDetailToDo: PropTypes.func,
 }
 
 List.defaultProps = {
     getListToDo: () => {},
     handleAddToDo: () => {},
     handleShowHideModal: () => {},
+    handleDetailToDo: () => {},
 }
 
 export default List

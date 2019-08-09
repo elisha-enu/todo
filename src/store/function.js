@@ -73,7 +73,7 @@ export const handleRegister = (payload) => dispatch => {
 }
 
 export const getListToDo = (query, filter) => (dispatch) => {
-  let URL = `${apiURL}/todo/user?q=${query || ''}&filter=${filter}`
+  let URL = `${apiURL}/todo/user?q=${query || ''}&filter=${filter}&limit=999999999`
 
   const cookies = Cookie()
   const cookieRes = cookies.get('token')
@@ -142,6 +142,7 @@ export const handleDetailToDo = (payload) => (dispatch) => {
   return axios.get(URL, {headers: header})
   .then(response => {
     dispatch(getDetailToDoSuccess(response.data.data))
+    dispatch(handleShowHideModal(true,'preview',payload))
   })
   .catch(error => {
     dispatch(onError(error))
@@ -173,8 +174,10 @@ export const handleUpdateToDo = (payload) => (dispatch) => {
 
   return axios.put(URL, body, {headers: header})
   .then(response => {
-    dispatch(putToDoSuccess(response.data.data))
+    // dispatch(putToDoSuccess(response.data.data))
+    dispatch(onSuccess())
     dispatch(handleShowHideModal(false, '', null))
+    dispatch(getListToDo('','all'))
   })
   .catch(error => {
     dispatch(onError(error))
@@ -196,21 +199,8 @@ export const handleDeleteToDo = (payload) => (dispatch, getState) => {
 
   dispatch(onLoading())
 
-  // let oldData = getState().listToDo
-  // let delData = oldData.filter((list) => list.id === payload)
-  // console.log('payload', payload)
-  // console.log('delData', delData)
-  // console.log('oldData', oldData)
-  // let deletedIndex = oldData.find((list, index) => list.id === payload && 'hehe')
-  // console.log('deletedIndex', deletedIndex)
-  // oldData.splice(deletedIndex,1)
-  // console.log('oldData after delete', oldData)
-
   return axios.delete(URL, {headers: header})
   .then(response => {
-    // sampai disini jangan di undo
-
-    // dispatch(deleteToDoSuccess(response.data.data))
     dispatch(getListToDo('', 'all'))
     dispatch(handleShowHideModal(false, '', null))
   })

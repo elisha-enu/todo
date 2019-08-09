@@ -9,6 +9,7 @@ export const mapStateToProps = state => {
     isModalShow: state.isModalShow,
     modalType: state.modalType,
     dataId: state.dataId,
+    isLoading: state.isLoading,
   }
 }
   
