@@ -7,7 +7,9 @@ import {
   GET_LIST_TODO_SUCCESS,
   GET_DETAIL_TODO_SUCCESS,
   PUT_TODO_SUCCESS,
+  DELETE_TODO_SUCCESS,
   SHOW_HIDE_MODAL,
+  SET_DATAID,
 } from './action'
 import axios from 'axios'
 import Cookie from 'cookie-universal'
@@ -39,13 +41,11 @@ export const handleLogin = (payload) => dispatch => {
 
   return axios.post(URL, body)
     .then(response => {
-      console.log('masuk sukses')
       const cookies = Cookie()
       cookies.set('token', response.data.data.token)
       dispatch(onSuccess())
     })
     .catch(error => {
-      console.log('masuk error')
       dispatch(onError(error))
     });
 }
@@ -68,7 +68,6 @@ export const handleRegister = (payload) => dispatch => {
       dispatch(onSuccess())
     })
     .catch(error => {
-      console.log('masuk error')
       dispatch(onError(error))
   });
 }
@@ -81,12 +80,15 @@ export const getListToDo = (query, filter) => (dispatch) => {
 
   const header = {"Authorization": cookieRes};
 
+  dispatch(onLoading())
+
   return axios.get(URL, {headers: header})
   .then(response => {
     dispatch(getListToDoSuccess(response.data.data))
+    dispatch(onSuccess())
   })
   .catch(error => {
-    throw(error);
+    dispatch(onError(error))
   });
 }
 
@@ -113,37 +115,40 @@ export const handleAddToDo = (payload) => (dispatch, getState) => {
     note: payload.note,
   }
 
+  dispatch(onLoading())
+
   return axios.post(URL, body, {headers: header})
-  .then(response => {
-    const oldData = getState().listToDo
-    const newData = oldData.concat(response.data.data)
-    dispatch(postToDoSuccess(newData))
-  })
-  .catch(error => {
-    throw(error);
-  });
+    .then(response => {
+      const oldData = getState().listToDo
+      const newData = oldData.concat(response.data.data)
+      dispatch(postToDoSuccess(newData))
+      dispatch(handleShowHideModal(false, '', null))
+    })
+    .catch(error => {
+      dispatch(onError(error))
+    });
 }
 
 export const handleDetailToDo = (payload) => (dispatch) => {
   let URL = `${apiURL}/todo/${payload}`
-  console.log('function payload', payload)
 
   const cookies = Cookie()
   const cookieRes = cookies.get('token')
 
   const header = {"Authorization": cookieRes};
 
+  dispatch(onLoading())
+
   return axios.get(URL, {headers: header})
   .then(response => {
     dispatch(getDetailToDoSuccess(response.data.data))
   })
   .catch(error => {
-    throw(error);
+    dispatch(onError(error))
   });
 }
 
 export const getDetailToDoSuccess = (payload) => {
-  console.log('get detail masuk')
   return ({
     type: GET_DETAIL_TODO_SUCCESS,
     payload,
@@ -159,16 +164,20 @@ export const handleUpdateToDo = (payload) => (dispatch) => {
   const header = {"Authorization": cookieRes};
   const body = {
     title: payload.title,
-    priority: 1,
+    priority: payload.priority,
     note: payload.note,
+    isDone: payload.isDone,
   }
+
+  dispatch(onLoading())
 
   return axios.put(URL, body, {headers: header})
   .then(response => {
     dispatch(putToDoSuccess(response.data.data))
+    dispatch(handleShowHideModal(false, '', null))
   })
   .catch(error => {
-    throw(error);
+    dispatch(onError(error))
   });
 }
 
@@ -177,7 +186,7 @@ export const putToDoSuccess = (payload) => ({
   payload,
 })
 
-export const handleDeleteToDo = (payload) => (dispatch) => {
+export const handleDeleteToDo = (payload) => (dispatch, getState) => {
   let URL = `${apiURL}/todo/${payload}`
 
   const cookies = Cookie()
@@ -185,22 +194,43 @@ export const handleDeleteToDo = (payload) => (dispatch) => {
 
   const header = {"Authorization": cookieRes};
 
+  dispatch(onLoading())
+
+  // let oldData = getState().listToDo
+  // let delData = oldData.filter((list) => list.id === payload)
+  // console.log('payload', payload)
+  // console.log('delData', delData)
+  // console.log('oldData', oldData)
+  // let deletedIndex = oldData.find((list, index) => list.id === payload && 'hehe')
+  // console.log('deletedIndex', deletedIndex)
+  // oldData.splice(deletedIndex,1)
+  // console.log('oldData after delete', oldData)
+
   return axios.delete(URL, {headers: header})
   .then(response => {
-    console.log('response', response.data)
-    // dispatch(deleteToDoSuccess(response.data))
-    // dispatch(getDetailToDoSuccess(response.data.data))
+    // sampai disini jangan di undo
+
+    // dispatch(deleteToDoSuccess(response.data.data))
+    dispatch(getListToDo('', 'all'))
+    dispatch(handleShowHideModal(false, '', null))
   })
   .catch(error => {
-    throw(error);
+    dispatch(onError(error))
   });
 }
 
-export const handleShowHideModal = (isShow, modalType) => {
-  console.log(isShow, 'isShow')
-  console.log(modalType, 'modalType')
-  return ({
+export const deleteToDoSuccess = (payload) => ({
+  type: DELETE_TODO_SUCCESS,
+  payload,
+})
+
+export const handleShowHideModal = (isShow, modalType, dataId) => (dispatch) => {
+  dispatch({
+    type: SET_DATAID,
+    payload: dataId,
+  })
+  dispatch({
     type: SHOW_HIDE_MODAL,
-    payload: {isShow, modalType}
+    payload: {isShow, modalType},
   })
 }

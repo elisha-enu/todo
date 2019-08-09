@@ -8,6 +8,8 @@ import {
     ON_ERROR,
     ON_SUCCESS,
     SHOW_HIDE_MODAL,
+    SET_DATAID,
+    DELETE_TODO_SUCCESS,
   } from './action'
   
   const initialState = {
@@ -21,6 +23,7 @@ import {
     errMessage: '',
     isModalShow: false,
     modalType: '',
+    dataId: null,
   };
   
   const reducer = (state= initialState, action) => {
@@ -52,23 +55,42 @@ import {
       case POST_TODO_SUCCESS:
         return {
           ...state,
+          isLoading: false,
+          isError: false,
           listToDo: action.payload,
         }
       case GET_DETAIL_TODO_SUCCESS:
         return {
           ...state,
+          isLoading: false,
+          isError: false,
           detailToDo: action.payload,
         }
       case PUT_TODO_SUCCESS:
         return {
           ...state,
+          isLoading: false,
+          isError: false,
           detailToDo: action.payload,
+        }
+      case DELETE_TODO_SUCCESS:
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          listToDo: action.payload,
         }
       case SHOW_HIDE_MODAL:
         return {
           ...state,
           isModalShow: action.payload.isShow,
           modalType: action.payload.modalType,
+          // dataId: action.payload.dataId,
+        }
+      case SET_DATAID:
+        return {
+          ...state,
+          dataId: action.payload,
         }
       default:
         return {

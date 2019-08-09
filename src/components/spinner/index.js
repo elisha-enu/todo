@@ -4,20 +4,26 @@ import PropTypes from 'prop-types'
 import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Spinner from 'react-bootstrap/Spinner'
+import { ModalWrapper } from './styled';
 
 const Spinners = ({
   show,
   onHide,
 }) => {
   return (
+    <>
+    <ModalWrapper />
     <Modal show={show} onHide={onHide}
-      aria-labelledby="contained-modal-title"
+      aria-labelledby="modal-title-vcenter"
       centered
+      size="sm"
+      dialogClassName="modal-spinner-custom"
     >
-        <Spinner animation="border" role="status">
+        <Spinner animation="border" variant="warning" role="status" size="lg">
           <span className="sr-only">Loading...</span>
         </Spinner>
     </Modal>
+    </>
   )
 }
 

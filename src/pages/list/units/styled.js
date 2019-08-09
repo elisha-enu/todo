@@ -1,5 +1,5 @@
 import styled from 'styled-components'
 
-export const PageStyled = styled.div`
-
+export const ActionBox = styled.div`
+    margin: 16px 0;
 `

@@ -23,7 +23,7 @@ const Create = ({
     <>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="formBasicAdd">
+          <Form.Group controlId="formTitle">
             <Form.Label>Title</Form.Label>
             <Form.Control
               type="text"
@@ -31,6 +31,8 @@ const Create = ({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
+          </Form.Group>
+          <Form.Group controlId="formNote">
             <Form.Label>Note</Form.Label>
             <Form.Control
               type="text"
@@ -42,12 +44,11 @@ const Create = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => handleShowHideModal(false, modalType)}>
+        <Button variant="outline-secondary" onClick={() => handleShowHideModal(false, modalType, null)}>
           Close
         </Button>
-        <Button variant="primary" onClick={async () => {
+        <Button variant="outline-primary" onClick={() => {
           handleAddToDo(insertData)
-          onHide()
         }}
         >
           Save Changes

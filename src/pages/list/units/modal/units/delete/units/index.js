@@ -6,23 +6,21 @@ import Modal from 'react-bootstrap/Modal'
 
 const Delete = ({
   handleDeleteToDo,
-  show,
-  onHide,
   dataId,
+  handleShowHideModal,
+  modalType,
 }) => {
-
   return (
     <>
       <Modal.Body>
         You can't undo this action
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
+        <Button variant="outline-secondary" onClick={() => handleShowHideModal(false, modalType, null)}>
           Close
         </Button>
-        <Button variant="primary" onClick={() => {
+        <Button variant="outline-danger" onClick={() => {
           handleDeleteToDo(dataId)
-          onHide()
         }}
         >
           Delete anyway
@@ -37,12 +35,14 @@ Delete.propTypes = {
   show: PropTypes.bool,
   onHide: PropTypes.func,
   dataId: PropTypes.number,
+  handleShowHideModal: PropTypes.func,
 }
 
 Delete.defaultProps = {
   handleDeleteToDo: () => {},
   onHide: () => {},
   dataId: null,
+  handleShowHideModal: () => {},
 }
 
 export default Delete

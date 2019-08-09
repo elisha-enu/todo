@@ -28,18 +28,19 @@ const Modals = ({
       )
     } else if(modalType === 'preview') {
       return (
-        <Preview dataId={dataId}/>
+        <Preview />
       )
     } else  {
       return (
-        <Delete dataId={dataId}/>
+        <Delete />
       )
     }
   }
   console.log('isShowModal', isModalShow)
   console.log('type', modalType)
+  console.log('id modal', dataId)
   return (
-    <Modal show={isModalShow} onHide={() => handleShowHideModal(false, modalType)}>
+    <Modal show={isModalShow} onHide={() => handleShowHideModal(false, modalType, null)}>
       <Modal.Header closeButton>
         <Modal.Title>{headerTitle()}</Modal.Title>
       </Modal.Header>
@@ -50,13 +51,11 @@ const Modals = ({
 
 Modals.propTypes = {
   onHide: PropTypes.func,
-  dataId: PropTypes.number,
   handleShowHideModal: PropTypes.func,
 }
 
 Modals.defaultProps = {
   onHide: () => {},
-  dataId: null,
   handleShowHideModal: () => {},
 }
 

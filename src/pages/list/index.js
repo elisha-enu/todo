@@ -19,7 +19,7 @@ export const mapStateToProps = state => {
 export const mapDispatchToProps = dispatch => ({
     getListToDo: (search, filter) => dispatch(getListToDo(search, filter)),
     handleAddToDo: (data) => dispatch(handleAddToDo(data)),
-    handleShowHideModal: (isShow, modalType) => dispatch(handleShowHideModal(isShow, modalType))
+    handleShowHideModal: (isShow, modalType, dataId) => dispatch(handleShowHideModal(isShow, modalType, dataId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(List);
