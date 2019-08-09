@@ -14,7 +14,6 @@ import Modals from './modal'
 import Cookie from 'cookie-universal'
 import Spinners from '../../../components/spinner'
 import {ActionBox} from './styled'
-import swal from 'sweetalert'
 
 const List = ({
   listToDo,
@@ -23,6 +22,10 @@ const List = ({
   isLoading,
   handleShowHideModal,
   handleDetailToDo,
+  filter,
+  searchKey,
+  handleSearchKey,
+  handleFilter,
 }) => {
   const cookies = Cookie()
   const cookieRes = cookies.get('token')
@@ -30,8 +33,6 @@ const List = ({
     setAuth(false)
 
   const [tempSearch, setTempSearch] = useState('')
-  const [searchText, setSearchText] = useState('')
-  const [radio, setRadio] = useState('all')
 
   const dataTable = [
     'No',
@@ -43,10 +44,8 @@ const List = ({
   ]
 
   useEffect(() => {
-    getListToDo(searchText, radio)
-  }, [searchText, radio])
-
-  // swal("Hello world!");
+    getListToDo(searchKey, filter)
+  }, [filter, searchKey])
 
   return (
     <>
@@ -81,8 +80,8 @@ const List = ({
                     label="done"
                     name="formFilter"
                     id="radio-done"
-                    onChange={() => setRadio('done')}
-                    checked={radio === 'done'}
+                    onChange={() => handleFilter('done')}
+                    checked={filter === 'done'}
                     inline
                   />
                   <Form.Check
@@ -90,8 +89,8 @@ const List = ({
                     label="undone"
                     name="formFilter"
                     id="radio-undone"
-                    onChange={() => setRadio('undone')}
-                    checked={radio === 'undone'}
+                    onChange={() => handleFilter('undone')}
+                    checked={filter === 'undone'}
                     inline
                   />
                   <Form.Check
@@ -99,8 +98,8 @@ const List = ({
                     label="all"
                     name="formFilter"
                     id="radio-all"
-                    onChange={() => setRadio('all')}
-                    checked={radio === 'all'}
+                    onChange={() => handleFilter('all')}
+                    checked={filter === 'all'}
                     inline
                   />
                 </Form.Group>
@@ -121,7 +120,7 @@ const List = ({
                       aria-describedby="basic-addon2"
                     />
                     <InputGroup.Append>
-                      <Button variant="outline-secondary" onClick={() => setSearchText(tempSearch)}>Search</Button>
+                      <Button variant="outline-secondary" onClick={() => handleSearchKey(tempSearch)}>Search</Button>
                     </InputGroup.Append>
                   </InputGroup>
                 </Form.Group>
@@ -145,7 +144,7 @@ const List = ({
           <tbody>
             {
               listToDo && listToDo.length > 0 && listToDo.map((list,index) => (
-                <tr key={index} onClick={() => console.log(list.id)}>
+                <tr key={index}>
                   <td>{index+1}</td>
                   <td>{list.title}</td>
                   <td>{list.note}</td>
@@ -187,6 +186,8 @@ List.propTypes = {
     handleAddToDo: PropTypes.func,
     handleShowHideModal: PropTypes.func,
     handleDetailToDo: PropTypes.func,
+    handleSearchKey: PropTypes.func,
+    hanldeFilter: PropTypes.func,
 }
 
 List.defaultProps = {
@@ -194,6 +195,8 @@ List.defaultProps = {
     handleAddToDo: () => {},
     handleShowHideModal: () => {},
     handleDetailToDo: () => {},
+    handleSearchKey: () => {},
+    handleFilter: () => {},
 }
 
 export default List

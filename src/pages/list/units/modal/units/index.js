@@ -13,7 +13,6 @@ const Modals = ({
   handleShowHideModal,
   isLoading,
 }) => {
-  console.log('MODAL IS LOADING =>', isLoading)
   const headerTitle = () => {
     if(modalType === 'create') {
       return 'Create New To Do'

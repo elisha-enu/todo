@@ -5,6 +5,8 @@ import {
     handleAddToDo,
     handleShowHideModal,
     handleDetailToDo,
+    handleSearchKey,
+    handleFilter,
 } from '../../store/function'; 
 
 export const mapStateToProps = state => {
@@ -14,6 +16,8 @@ export const mapStateToProps = state => {
     isError: state.isError,
     isShowModal: state.isShowModal,
     modalTipe: state.modalType,
+    filter: state.filter,
+    searchKey: state.searchKey,
   }
 }
   
@@ -22,6 +26,8 @@ export const mapDispatchToProps = dispatch => ({
     handleAddToDo: (data) => dispatch(handleAddToDo(data)),
     handleShowHideModal: (isShow, modalType, dataId) => dispatch(handleShowHideModal(isShow, modalType, dataId)),
     handleDetailToDo: (dataId) => dispatch(handleDetailToDo(dataId)),
+    handleSearchKey: (searchKey) => dispatch(handleSearchKey(searchKey)),
+    handleFilter: (key) => dispatch(handleFilter(key)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(List);

@@ -6,9 +6,11 @@ import {
     ON_LOADING,
     ON_ERROR,
     ON_SUCCESS,
-    
+
     SHOW_HIDE_MODAL,
     SET_DATAID,
+    SET_SEARCH_KEY,
+    SET_FILTER,
   } from './action'
   
   const initialState = {
@@ -23,6 +25,8 @@ import {
     isModalShow: false,
     modalType: '',
     dataId: null,
+    filter: 'all',
+    searchKey: '',
   };
   
   const reducer = (state= initialState, action) => {
@@ -70,12 +74,21 @@ import {
           ...state,
           isModalShow: action.payload.isShow,
           modalType: action.payload.modalType,
-          // dataId: action.payload.dataId,
         }
       case SET_DATAID:
         return {
           ...state,
           dataId: action.payload,
+        }
+      case SET_SEARCH_KEY:
+        return {
+          ...state,
+          searchKey: action.payload,
+        }
+      case SET_FILTER:
+        return {
+          ...state,
+          filter: action.payload,
         }
       default:
         return {

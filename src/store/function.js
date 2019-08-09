@@ -8,6 +8,8 @@ import {
   GET_DETAIL_TODO_SUCCESS,
   SHOW_HIDE_MODAL,
   SET_DATAID,
+  SET_SEARCH_KEY,
+  SET_FILTER,
 } from './action'
 import axios from 'axios'
 import Cookie from 'cookie-universal'
@@ -192,7 +194,7 @@ export const getDetailToDoError = (payload) => {
   })
 }
 
-export const handleUpdateToDo = (payload) => (dispatch) => {
+export const handleUpdateToDo = (payload) => (dispatch, getState) => {
   let URL = `${apiURL}/todo/${payload.id}`
 
   const cookies = Cookie()
@@ -212,7 +214,7 @@ export const handleUpdateToDo = (payload) => (dispatch) => {
   .then(response => {
     dispatch(putToDoSuccess(response.data.data))
     dispatch(handleShowHideModal(false, '', null))
-    dispatch(getListToDo('','all'))
+    dispatch(getListToDo(getState().searchKey, getState().filter))
   })
   .catch(error => {
     dispatch(putToDoError(error))
@@ -234,7 +236,7 @@ export const putToDoError = (payload) => {
   })
 }
 
-export const handleDeleteToDo = (payload) => (dispatch) => {
+export const handleDeleteToDo = (payload) => (dispatch, getState) => {
   let URL = `${apiURL}/todo/${payload}`
 
   const cookies = Cookie()
@@ -247,7 +249,7 @@ export const handleDeleteToDo = (payload) => (dispatch) => {
   return axios.delete(URL, {headers: header})
   .then(response => {
     dispatch(deleteToDoSuccess(response.data.data))
-    dispatch(getListToDo('', 'all'))
+    dispatch(getListToDo(getState().searchKey, getState().filter))
     dispatch(handleShowHideModal(false, '', null))
   })
   .catch(error => {
@@ -280,3 +282,13 @@ export const handleShowHideModal = (isShow, modalType, dataId) => (dispatch) => 
     payload: {isShow, modalType},
   })
 }
+
+export const handleSearchKey = (payload) => ({
+  type: SET_SEARCH_KEY,
+  payload,
+})
+
+export const handleFilter = (payload) => ({
+  type: SET_FILTER,
+  payload,
+})

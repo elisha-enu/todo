@@ -9,3 +9,5 @@ export const ON_ERROR = 'ON_ERROR'
 
 export const SHOW_HIDE_MODAL = 'SHOW_HIDE_MODAL'
 export const SET_DATAID = 'SET_DATAID'
+export const SET_SEARCH_KEY = 'SET_SEARCH_KEY'
+export const SET_FILTER = 'SET_FILTER'
